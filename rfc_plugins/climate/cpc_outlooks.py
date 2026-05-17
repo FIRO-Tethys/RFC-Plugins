@@ -76,6 +76,8 @@ class RFCCPCOutlooksViewer(base.DataSource):
     _user_parameters = []
 
     def __init__(self, region="APRFC", product="6_10_temp", metadata=None, **kwargs):
+        from rfc_plugins.climate import validate_dependencies
+        validate_dependencies()
         self.region = region
         self.product = product
         super().__init__(metadata=metadata)

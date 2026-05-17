@@ -33,6 +33,8 @@ class RFCPrecipViewer(base.DataSource):
     _user_parameters = []
 
     def __init__(self, region="APRFC", dataset="qpe", product="last_10d", metadata=None, **kwargs):
+        from rfc_plugins.weather import validate_dependencies
+        validate_dependencies()
         self.region = region
         self.dataset = dataset
         self.product = product

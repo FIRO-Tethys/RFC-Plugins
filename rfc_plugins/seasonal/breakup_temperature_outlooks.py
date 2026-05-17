@@ -144,6 +144,8 @@ class APRFCBreakupTemperatureOutlooksViewer(base.DataSource):
     _user_parameters = []
 
     def __init__(self, station_id="PAFA", metadata=None, **kwargs):
+        from rfc_plugins.seasonal import validate_dependencies
+        validate_dependencies()
         self.station_id = station_id
         super().__init__(metadata=metadata)
 

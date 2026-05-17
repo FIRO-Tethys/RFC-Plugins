@@ -32,6 +32,8 @@ class RFCNDFDViewer(base.DataSource):
     _user_parameters = []
 
     def __init__(self, region="APRFC", product="qpf", time_choice="latest", metadata=None, **kwargs):
+        from rfc_plugins.weather import validate_dependencies
+        validate_dependencies()
         self.region = region
         self.product = product
         self.time_choice = time_choice

@@ -29,6 +29,8 @@ class RFCMRMSViewer(base.DataSource):
     _user_parameters = []
 
     def __init__(self, region="APRFC", product="rft_24hr", metadata=None, **kwargs):
+        from rfc_plugins.weather import validate_dependencies
+        validate_dependencies()
         self.region = region
         self.product = product
         super().__init__(metadata=metadata)

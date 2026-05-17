@@ -29,6 +29,8 @@ class RFCRiverStreamflowViewer(base.DataSource):
     visualization_args = {"gauge_id": "text"}
 
     def __init__(self, gauge_id, metadata=None):
+        from rfc_plugins.river import validate_dependencies
+        validate_dependencies()
         self.api_base_url = "https://api.water.noaa.gov/nwps/v1"
         self.gauge_id = gauge_id
         self.data = None
