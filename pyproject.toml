@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rfc-plugins"
+version = "0.1.0"
+description = "Intake drivers for TethysDash, organized into River, Weather, Water Supply, Climate, Seasonal, and Additional Info modules."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Iman Maghami" },
+    { name = "Aquaveo LLC", email = "imaghami@aquaveo.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Hydrology",
+]
+
+# Shared core deps — used by drivers in every module.
+dependencies = [
+    "intake==2.0.7",
+    "httpx",
+    "requests",
+]
+
+# Per-module extras. Today most modules only need the core deps, but the
+# structure is declared so future module-specific deps land in the right place
+# without restructuring. Empty extras still gate module-level
+# validate_dependencies() reporting and let users opt in to subsets explicitly.
+[project.optional-dependencies]
+river = []
+weather = []
+water_supply = []
+climate = []
+seasonal = []
+additional_info = []
+all = [
+    "rfc-plugins[river,weather,water_supply,climate,seasonal,additional_info]",
+]
+
+[project.urls]
+Homepage = "https://github.com/FIRO-Tethys/RFC-Plugins"
+Issues = "https://github.com/FIRO-Tethys/RFC-Plugins/issues"
+
+# Intake discovers drivers via this entry-point group at runtime. Active drivers
+# are uncommented; commented-out entries are future work and match the structure
+# of the now-deleted setup.py for reviewability.
+[project.entry-points."intake.drivers"]
+# --- River Observations and Forecasts ---
+rfc_river_streamflow = "rfc_plugins.river.river_streamflow:RFCRiverStreamflowViewer"
+# aprfc_48hr_flood_outlook = "rfc_plugins.river.flood_outlook_48hr:APRFCFloodOutlook48hrViewer"
+# aprfc_5day_flood_outlook = "rfc_plugins.river.flood_outlook_5day:APRFCFloodOutlook5DayViewer"
+# aprfc_hefs_plots = "rfc_plugins.river.hefs_plots:APRFCHEFSPlotsViewer"
+# aprfc_mmefs_plots = "rfc_plugins.river.mmefs_plots:APRFCMMEFSPlotsViewer"
+
+# --- Weather Observations and Forecasts ---
+rfc_precip_viewer = "rfc_plugins.weather.qpe_qpf:RFCPrecipViewer"
+rfc_ndfd_viewer = "rfc_plugins.weather.ndfd:RFCNDFDViewer"
+rfc_mrms_viewer = "rfc_plugins.weather.mrms:RFCMRMSViewer"
+rfc_fdd_map = "rfc_plugins.weather.degree_days_map:RFCFreezingDegreeDaysMap"
+rfc_fdd_timeseries = "rfc_plugins.weather.degree_days_timeseries:RFCFreezingDegreeDaysTimeSeries"
+rfc_tdd_map = "rfc_plugins.weather.thawing_degree_days_map:RFCThawingDegreeDaysMap"
+rfc_tdd_timeseries = "rfc_plugins.weather.thawing_degree_days_timeseries:RFCThawingDegreeDaysTimeSeries"
+# aprfc_national_precip_analysis = "rfc_plugins.weather.national_precip_analysis:APRFCNationalPrecipAnalysisViewer"
+# aprfc_freeze_level_maps = "rfc_plugins.weather.freeze_level_maps:APRFCFreezeLevelMapsViewer"
+# aprfc_nbm_snow_level_forecast = "rfc_plugins.weather.nbm_snow_level_forecast:APRFCNBMSnowLevelForecastViewer"
+# aprfc_national_snow_data = "rfc_plugins.weather.national_snow_data:APRFCNationalSnowDataViewer"
+# rfc_weather_forecasts = "rfc_plugins.weather.weather_forecasts:RFCWeatherForecastsViewer"
+# rfc_satellite_viewer = "rfc_plugins.weather.satellite:RFCSatelliteViewer"
+# rfc_radar_viewer = "rfc_plugins.weather.radar:RFCRadarViewer"
+
+# --- Water Supply ---
+# aprfc_nrcs_swe_data = "rfc_plugins.water_supply.nrcs_swe_data:APRFCNRCSSWEDataViewer"
+# aprfc_snow_depth = "rfc_plugins.water_supply.snow_depth:APRFCSnowDepthViewer"
+# aprfc_bradley_lake = "rfc_plugins.water_supply.bradley_lake:APRFCBradleyLakeViewer"
+
+# --- Climate and History ---
+# aprfc_drought = "rfc_plugins.climate.drought:APRFCDroughtViewer"
+rfc_cpc_outlooks = "rfc_plugins.climate.cpc_outlooks:RFCCPCOutlooksViewer"
+
+# --- Seasonal Interest ---
+# aprfc_interactive_breakup_map = "rfc_plugins.seasonal.interactive_breakup_map:APRFCInteractiveBreakupMapViewer"
+# aprfc_breakup_dates_river_view = "rfc_plugins.seasonal.breakup_dates_river_view:APRFCBreakupDatesRiverViewViewer"
+aprfc_breakup_temperature_outlooks = "rfc_plugins.seasonal.breakup_temperature_outlooks:APRFCBreakupTemperatureOutlooksViewer"
+# aprfc_water_temperature = "rfc_plugins.seasonal.water_temperature:APRFCWaterTemperatureViewer"
+# aprfc_ice_thickness = "rfc_plugins.seasonal.ice_thickness:APRFCIceThicknessViewer"
+
+# --- Additional Info ---
+# aprfc_hawaii_rfc_forecasts = "rfc_plugins.additional_info.hawaii_rfc_forecasts:APRFCHawaiiRFCForecastsViewer"
+
+[tool.setuptools.packages.find]
+include = ["rfc_plugins*"]

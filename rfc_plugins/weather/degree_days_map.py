@@ -27,6 +27,8 @@ class RFCFreezingDegreeDaysMap(base.DataSource):
     _user_parameters = []
 
     def __init__(self, region="APRFC", metadata=None, **kwargs):
+        from rfc_plugins.weather import validate_dependencies
+        validate_dependencies()
         self.region = region
         super().__init__(metadata=metadata)
 

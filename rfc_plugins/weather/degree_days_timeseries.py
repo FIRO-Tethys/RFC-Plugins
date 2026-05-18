@@ -26,6 +26,8 @@ class RFCFreezingDegreeDaysTimeSeries(base.DataSource):
     _user_parameters = []
 
     def __init__(self, station_id="pabr", metadata=None, **kwargs):
+        from rfc_plugins.weather import validate_dependencies
+        validate_dependencies()
         self.station_id = station_id
         super().__init__(metadata=metadata)
 
