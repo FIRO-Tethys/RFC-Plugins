@@ -1,40 +1,29 @@
 from intake.source import base
 
 from .utilities import (
-    get_ice_thickness_dataset_dropdown,
     get_ice_thickness_month_dropdown,
-    fetch_ice_thickness_geojson,
+    get_ice_thickness_year_dropdown,
+    get_ice_thickness_product_dropdown,
+    fetch_aprfc_ice_thickness_geojson,
 )
 
 
 class APRFCIceThicknessViewer(base.DataSource):
-
     container = "python"
-    version = "0.0.1"
+    version = "0.0.2"
     name = "aprfc_ice_thickness"
 
     visualization_group = "Seasonal Interest"
     visualization_label = "Ice Thickness"
     visualization_type = "map"
-
-    visualization_description = (
-        "APRFC ice thickness observation points from APRFC JSON data."
-    )
-
-    visualization_tags = [
-        "aprfc",
-        "seasonal",
-        "ice",
-        "ice thickness",
-        "map",
-        "alaska",
-    ]
-
-    visualization_attribution = "NOAA / APRFC"
+    visualization_description = "APRFC Alaska ice thickness observations."
+    visualization_tags = ["aprfc", "seasonal", "ice thickness", "map"]
+    visualization_attribution = "NOAA / NWS / APRFC"
 
     visualization_args = {
-        "dataset": get_ice_thickness_dataset_dropdown(),
         "month": get_ice_thickness_month_dropdown(),
+        "year": get_ice_thickness_year_dropdown(),
+        "product": get_ice_thickness_product_dropdown(),
     }
 
     loading_icon = False
@@ -42,22 +31,26 @@ class APRFCIceThicknessViewer(base.DataSource):
 
     def __init__(
         self,
-        dataset="current",
-        month="all",
+        month="03",
+        year="2026",
+        product="ice",
         metadata=None,
         **kwargs,
     ):
+        from rfc_plugins.seasonal import validate_dependencies
 
-        self.dataset = dataset
-        self.month = month
+        validate_dependencies()
+        self.month = str(month).zfill(2)
+        self.year = str(year)
+        self.product = str(product)
 
         super().__init__(metadata=metadata)
 
     def read(self):
-
-        ice_geojson = fetch_ice_thickness_geojson(
-            dataset=self.dataset,
+        ice_geojson = fetch_aprfc_ice_thickness_geojson(
             month=self.month,
+            year=self.year,
+            product=self.product,
         )
 
         return {
@@ -70,14 +63,19 @@ class APRFCIceThicknessViewer(base.DataSource):
                     "configuration": {
                         "type": "VectorLayer",
                         "props": {
-                            "name": "APRFC Ice Thickness Sites",
+                            "name": "APRFC Ice Thickness",
                             "popup": {
                                 "title": "{name}",
                                 "content": (
-                                    "<b>Date:</b> {latest_date}<br>"
-                                    "<b>Ice Thickness:</b> {ice_thickness}<br>"
-                                    "<b>Snow Depth:</b> {snow_depth}<br>"
-                                    "<b>Notes:</b> {notes}"
+                                    "<b>Station ID:</b> {lid}<br>"
+                                    "<b>Year:</b> {year}<br>"
+                                    "<b>Month:</b> {month}<br>"
+                                    "<b>Elevation:</b> {elev}<br>"
+                                    "<b>Ice thickness:</b> {ice} in<br>"
+                                    "<b>Date:</b> {date}<br>"
+                                    "<b>Monthly average:</b> {avg} in<br>"
+                                    "<b>Ice thickness % avg:</b> {percent_avg}%<br>"
+                                    "<b>Average sample count:</b> {avg_count}"
                                 ),
                             },
                             "source": {

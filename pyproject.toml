@@ -55,12 +55,13 @@ Issues = "https://github.com/FIRO-Tethys/RFC-Plugins/issues"
 # are uncommented; commented-out entries are future work and match the structure
 # of the now-deleted setup.py for reviewability.
 [project.entry-points."intake.drivers"]
+
 # --- River Observations and Forecasts ---
 rfc_river_streamflow = "rfc_plugins.river.river_streamflow:RFCRiverStreamflowViewer"
-# aprfc_48hr_flood_outlook = "rfc_plugins.river.flood_outlook_48hr:APRFCFloodOutlook48hrViewer"
-# aprfc_5day_flood_outlook = "rfc_plugins.river.flood_outlook_5day:APRFCFloodOutlook5DayViewer"
-# aprfc_hefs_plots = "rfc_plugins.river.hefs_plots:APRFCHEFSPlotsViewer"
-# aprfc_mmefs_plots = "rfc_plugins.river.mmefs_plots:APRFCMMEFSPlotsViewer"
+aprfc_48hr_flood_outlook = "rfc_plugins.river.flood_outlook_48hr:APRFCFloodOutlook48hrViewer"
+aprfc_5day_flood_outlook = "rfc_plugins.river.flood_outlook_5day:APRFCFloodOutlook5DayViewer"
+aprfc_hefs_plots = "rfc_plugins.river.hefs_plots:APRFCHEFSPlotsViewer"
+aprfc_mmefs_plots = "rfc_plugins.river.mmefs_plots:APRFCMMEFSPlotsViewer"
 
 # --- Weather Observations and Forecasts ---
 rfc_precip_viewer = "rfc_plugins.weather.qpe_qpf:RFCPrecipViewer"
@@ -71,31 +72,36 @@ rfc_fdd_timeseries = "rfc_plugins.weather.degree_days_timeseries:RFCFreezingDegr
 rfc_tdd_map = "rfc_plugins.weather.thawing_degree_days_map:RFCThawingDegreeDaysMap"
 rfc_tdd_timeseries = "rfc_plugins.weather.thawing_degree_days_timeseries:RFCThawingDegreeDaysTimeSeries"
 # aprfc_national_precip_analysis = "rfc_plugins.weather.national_precip_analysis:APRFCNationalPrecipAnalysisViewer"
-# aprfc_freeze_level_maps = "rfc_plugins.weather.freeze_level_maps:APRFCFreezeLevelMapsViewer"
-# aprfc_nbm_snow_level_forecast = "rfc_plugins.weather.nbm_snow_level_forecast:APRFCNBMSnowLevelForecastViewer"
+aprfc_freeze_level_maps = "rfc_plugins.weather.freeze_level_maps:APRFCFreezeLevelMapsViewer"
+aprfc_nbm_snow_level_forecast = "rfc_plugins.weather.nbm_snow_level_forecast:APRFCNBMSnowLevelForecastViewer"
 # aprfc_national_snow_data = "rfc_plugins.weather.national_snow_data:APRFCNationalSnowDataViewer"
-# rfc_weather_forecasts = "rfc_plugins.weather.weather_forecasts:RFCWeatherForecastsViewer"
-# rfc_satellite_viewer = "rfc_plugins.weather.satellite:RFCSatelliteViewer"
-# rfc_radar_viewer = "rfc_plugins.weather.radar:RFCRadarViewer"
+rfc_weather_forecasts = "rfc_plugins.weather.weather_forecasts:RFCWeatherForecastsViewer"
+rfc_satellite_viewer = "rfc_plugins.weather.satellite:RFCSatelliteViewer"
+rfc_radar_viewer = "rfc_plugins.weather.radar:RFCRadarViewer"
+aprfc_qpe_qpf_images = "rfc_plugins.weather.qpe_qpf_images:APRFCQPEQPFImagesViewer"
+aprfc_accum_qpe_qpf_images = "rfc_plugins.weather.accum_qpe_qpf_images:APRFCAccumQPEQPFImagesViewer"
 
 # --- Water Supply ---
-# aprfc_nrcs_swe_data = "rfc_plugins.water_supply.nrcs_swe_data:APRFCNRCSSWEDataViewer"
-# aprfc_snow_depth = "rfc_plugins.water_supply.snow_depth:APRFCSnowDepthViewer"
-# aprfc_bradley_lake = "rfc_plugins.water_supply.bradley_lake:APRFCBradleyLakeViewer"
+aprfc_nrcs_swe_data = "rfc_plugins.water_supply.nrcs_swe_data:APRFCNRCSSWEDataViewer"
+
+aprfc_snow_depth_viewer = "rfc_plugins.water_supply.snow_depth_map:APRFCSnowDepthViewer"
+aprfc_snow_depth_time_series = "rfc_plugins.water_supply.snow_depth_timeseries:APRFCSnowDepthTimeSeries"
+aprfc_bradley_lake = "rfc_plugins.water_supply.bradley_lake:APRFCBradleyLakeViewer"
 
 # --- Climate and History ---
 # aprfc_drought = "rfc_plugins.climate.drought:APRFCDroughtViewer"
 rfc_cpc_outlooks = "rfc_plugins.climate.cpc_outlooks:RFCCPCOutlooksViewer"
 
 # --- Seasonal Interest ---
-# aprfc_interactive_breakup_map = "rfc_plugins.seasonal.interactive_breakup_map:APRFCInteractiveBreakupMapViewer"
-# aprfc_breakup_dates_river_view = "rfc_plugins.seasonal.breakup_dates_river_view:APRFCBreakupDatesRiverViewViewer"
+aprfc_interactive_breakup_map = "rfc_plugins.seasonal.interactive_breakup_map:APRFCInteractiveBreakupMapViewer"
+aprfc_breakup_dates_river_view = "rfc_plugins.seasonal.breakup_dates_river_view:APRFCBreakupDatesRiverViewViewer"
 aprfc_breakup_temperature_outlooks = "rfc_plugins.seasonal.breakup_temperature_outlooks:APRFCBreakupTemperatureOutlooksViewer"
-# aprfc_water_temperature = "rfc_plugins.seasonal.water_temperature:APRFCWaterTemperatureViewer"
-# aprfc_ice_thickness = "rfc_plugins.seasonal.ice_thickness:APRFCIceThicknessViewer"
+aprfc_water_temperature = "rfc_plugins.seasonal.water_temperature:APRFCWaterTemperatureViewer"
+aprfc_ice_thickness = "rfc_plugins.seasonal.ice_thickness:APRFCIceThicknessViewer"
+aprfc_historic_breakup_dates = "rfc_plugins.seasonal.historic_breakup_dates:APRFCHistoricBreakupDatesViewer"
 
 # --- Additional Info ---
-# aprfc_hawaii_rfc_forecasts = "rfc_plugins.additional_info.hawaii_rfc_forecasts:APRFCHawaiiRFCForecastsViewer"
+aprfc_hawaii_rfc_forecasts = "rfc_plugins.additional_info.hawaii_rfc_forecasts:APRFCHawaiiRFCForecastsViewer"
 
 [tool.setuptools.packages.find]
 include = ["rfc_plugins*"]
