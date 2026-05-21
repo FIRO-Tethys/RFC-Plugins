@@ -58,6 +58,7 @@ Issues = "https://github.com/FIRO-Tethys/RFC-Plugins/issues"
 
 # --- River Observations and Forecasts ---
 rfc_river_streamflow = "rfc_plugins.river.river_streamflow:RFCRiverStreamflowViewer"
+rfc_river_streamflow_map = "rfc_plugins.river.river_streamflow_map:RFCRiverStreamflowMapViewer"
 aprfc_48hr_flood_outlook = "rfc_plugins.river.flood_outlook_48hr:APRFCFloodOutlook48hrViewer"
 aprfc_5day_flood_outlook = "rfc_plugins.river.flood_outlook_5day:APRFCFloodOutlook5DayViewer"
 aprfc_hefs_plots = "rfc_plugins.river.hefs_plots:APRFCHEFSPlotsViewer"
@@ -82,7 +83,8 @@ aprfc_qpe_qpf_images = "rfc_plugins.weather.qpe_qpf_images:APRFCQPEQPFImagesView
 aprfc_accum_qpe_qpf_images = "rfc_plugins.weather.accum_qpe_qpf_images:APRFCAccumQPEQPFImagesViewer"
 
 # --- Water Supply ---
-aprfc_nrcs_swe_data = "rfc_plugins.water_supply.nrcs_swe_data:APRFCNRCSSWEDataViewer"
+aprfc_nrcs_swe_map = "rfc_plugins.water_supply.nrcs_swe_map:APRFCNRCSSWEMapViewer"
+aprfc_nrcs_swe_time_series = "rfc_plugins.water_supply.nrcs_swe_timeseries:APRFCNRCSSWETimeSeries"
 
 aprfc_snow_depth_viewer = "rfc_plugins.water_supply.snow_depth_map:APRFCSnowDepthViewer"
 aprfc_snow_depth_time_series = "rfc_plugins.water_supply.snow_depth_timeseries:APRFCSnowDepthTimeSeries"

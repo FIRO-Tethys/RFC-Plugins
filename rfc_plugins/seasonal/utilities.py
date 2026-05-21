@@ -877,6 +877,47 @@ def get_breakup_site_dropdown():
     return sorted(options, key=lambda x: x["label"])
 
 
+def get_breakup_site_id(location):
+    """Return the breakup site ID for a given location name or ID."""
+    if location is None:
+        raise ValueError("Location must be provided")
+
+    location_text = str(location).strip()
+    if not location_text:
+        raise ValueError("Location must not be empty")
+
+    data = fetch_breakup_data()
+    normalized = location_text.lower()
+
+    # Exact matches first: site ID, name, or location field.
+    for site_id, site in data.items():
+        if normalized == str(site_id).lower():
+            return str(site_id)
+
+        name = str(site.get("name", "")).strip().lower()
+        loc = str(site.get("location", "")).strip().lower()
+
+        if normalized == name or normalized == loc:
+            return str(site_id)
+
+    # Fallback to substring matches on name/location.
+    matches = []
+    for site_id, site in data.items():
+        name = str(site.get("name", "")).strip().lower()
+        loc = str(site.get("location", "")).strip().lower()
+        if normalized in name or normalized in loc:
+            matches.append(str(site_id))
+
+    if len(matches) == 1:
+        return matches[0]
+    if len(matches) > 1:
+        raise ValueError(
+            f"Multiple breakpoint site IDs match location '{location_text}': {', '.join(matches)}"
+        )
+
+    raise ValueError(f"No breakup site ID found for location '{location_text}'")
+
+
 def jday_to_label(jday):
     try:
         date = datetime.strptime(f"2013 {int(round(jday))}", "%Y %j")

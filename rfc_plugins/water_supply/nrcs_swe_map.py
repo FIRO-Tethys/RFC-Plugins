@@ -52,13 +52,13 @@ SWE_PERCENT_RENDERER = {
 }
 
 
-class APRFCNRCSSWEDataViewer(base.DataSource):
+class APRFCNRCSSWEMapViewer(base.DataSource):
     container = "python"
     version = "0.0.1"
-    name = "aprfc_nrcs_swe_data"
+    name = "aprfc_nrcs_swe_map"
 
     visualization_group = "Water Supply"
-    visualization_label = "NRCS SWE Data"
+    visualization_label = "APRFC NRCS SWE Map"
     visualization_type = "map"
     visualization_description = (
         "APRFC Alaska NRCS/SNOTEL Snow Water Equivalent map from nrcs_swe.json."

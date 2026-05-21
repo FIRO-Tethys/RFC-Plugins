@@ -6,6 +6,8 @@ from .utilities import (
     fetch_aprfc_breakup_metadata,
 )
 
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin, LayerConfigurationBuilder
+
 
 RIVER_STATUS_RENDERER = {
     "type": "unique-value",
@@ -146,60 +148,72 @@ class APRFCInteractiveBreakupMapViewer(base.DataSource):
 
     def read(self):
         river_geojson = fetch_aprfc_breakup_river_geojson()
-        village_geojson = fetch_aprfc_breakup_village_geojson()
+        station_geojson = fetch_aprfc_breakup_village_geojson()
         metadata = fetch_aprfc_breakup_metadata()
 
+        river_status_layer = LayerConfigurationBuilder("River_Status","GeoJSON")
+        river_status_layer.set_geojson(river_geojson)
+        
+        station_layer = LayerConfigurationBuilder("Stations","GeoJSON")
+        station_layer.set_geojson(station_geojson)
+        
+        break_up_layer = LayerConfigurationBuilder("Breakup","ESRI Image and Map Service")
+        break_up_layer.set_source_properties(url="https://mapservices.weather.noaa.gov/vector/rest/services/obs/aprfc_RiverBreakupStatus/MapServer")
+        break_up_layer.add_attribute_variable("name", "Location", "APRFC Village Status")
+        
         return {
             "baseMap": (
                 "https://server.arcgisonline.com/arcgis/rest/services/"
                 "NatGeo_World_Map/MapServer"
             ),
-            "layers": [
-                {
-                    "configuration": {
-                        "type": "VectorLayer",
-                        "props": {
-                            "name": "River Status",
-                            "legendEnabled": True,
-                            "popup": {
-                                "title": "{display_name}",
-                                "content": (
-                                    "<b>River Status:</b> {status_label}<br>"
-                                    f"<b>Map Last Update:</b> {metadata['last_update']}"
-                                ),
-                            },
-                            "renderer": RIVER_STATUS_RENDERER,
-                            "source": {
-                                "type": "GeoJSON",
-                                "props": {},
-                                "geojson": river_geojson,
-                            },
-                        },
-                    }
-                },
-                {
-                    "configuration": {
-                        "type": "VectorLayer",
-                        "props": {
-                            "name": "Community Status",
-                            "legendEnabled": True,
-                            "popup": {
-                                "title": "{display_name}",
-                                "content": (
-                                    "<b>Community Status:</b> {village_status_label}<br>"
-                                    f"<b>Map Last Update:</b> {metadata['last_update']}"
-                                ),
-                            },
-                            "renderer": VILLAGE_STATUS_RENDERER,
-                            "source": {
-                                "type": "GeoJSON",
-                                "props": {},
-                                "geojson": village_geojson,
-                            },
-                        },
-                    }
-                },
-            ],
+            # "layers": [break_up_layer.build()],
+            "layers": [      {
+        "configuration": {
+          "type": "ImageLayer",
+          "props": {
+            "name": "Breakup",
+            "source": {
+              "type": "ESRI Image and Map Service",
+              "props": {
+                "url": "https://mapservices.weather.noaa.gov/vector/rest/services/obs/aprfc_RiverBreakupStatus/MapServer"
+              }
+            }
+          }
+        },
+        "attributeAliases": {
+          "APRFC River Breakup Status": {
+            "objectid": "OBJECTID",
+            "nameen": "Name Of River",
+            "majorriver": "Major River",
+            "status": "Status",
+            "statuscode": "Status Code",
+            "lastmodifi": "Last Modified",
+            "idp_source": "GIS Source",
+            "idp_filedate": "GIS File Date",
+            "idp_ingestdate": "GIS Ingest Date",
+            "shape": "Shape",
+            "st_length(shape)": "st_length(shape)",
+            "length": "length"
+          },
+          "APRFC Village Status": {
+            "objectid": "objectid",
+            "name": "name",
+            "lid": "lid",
+            "status": "status",
+            "statuscode": "statuscode",
+            "lastmodifi": "lastmodifi",
+            "idp_ingestdate": "GIS Ingest Date",
+            "idp_filedate": "GIS File Date",
+            "idp_source": "Source",
+            "shape": "shape"
+          }
+        },
+        "attributeVariables": {
+          "APRFC Village Status": {
+            "name": "Location"
+          }
+        }
+      }],
             "layerControl": True,
             "map_extent": {
                 "extent": "-16500000,8500000,3.8"

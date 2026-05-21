@@ -2,6 +2,7 @@ from intake.source import base
 
 from .utilities import (
     get_breakup_site_dropdown,
+    get_breakup_site_id,
     build_breakup_database_figure,
 )
 
@@ -22,7 +23,7 @@ class APRFCHistoricBreakupDatesViewer(base.DataSource):
     visualization_attribution = "NOAA / NWS / APRFC"
 
     visualization_args = {
-        "site_id": get_breakup_site_dropdown(),
+        "location": get_breakup_site_dropdown(),
         "start_year": "text",
         "end_year": "text",
     }
@@ -32,7 +33,7 @@ class APRFCHistoricBreakupDatesViewer(base.DataSource):
 
     def __init__(
         self,
-        site_id="17",
+        location="17",
         start_year="1980",
         end_year="2026",
         metadata=None,
@@ -42,15 +43,16 @@ class APRFCHistoricBreakupDatesViewer(base.DataSource):
 
         validate_dependencies()
 
-        self.site_id = site_id
+        self.location = location
         self.start_year = start_year
         self.end_year = end_year
 
         super().__init__(metadata=metadata)
 
     def read(self):
+        site_id = get_breakup_site_id(self.location)
         return build_breakup_database_figure(
-            site_id=self.site_id,
+            site_id=site_id,
             start_year=self.start_year,
             end_year=self.end_year,
         )
